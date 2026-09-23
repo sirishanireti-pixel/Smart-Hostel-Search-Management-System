@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostelHub – Smart Hostel Search & Management System</title>
+  <meta name="description" content="Find, compare, and book student hostels near your college. GPS-based smart hostel discovery with real-time availability, verified reviews, and AI recommendations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon"><i class="fa-solid fa-building-columns"></i></span>
+        <span class="logo-text">Hostel<span class="logo-accent">Hub</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">Discover</a>
+        <a href="compare.html" class="nav-link">Compare</a>
+        <a href="dashboard.html" class="nav-link">My Dashboard</a>
+        <a href="admin.html" class="nav-link">Admin</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-ghost" onclick="window.location.href='login.html'">Login</button>
+        <button class="btn-primary" onclick="window.location.href='login.html'">Sign Up Free</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Discover</a>
+      <a href="compare.html">Compare</a>
+      <a href="dashboard.html">My Dashboard</a>
+      <a href="admin.html">Admin Panel</a>
+      <a href="login.html" class="mobile-cta">Login / Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="hostel_hero.png" alt="Modern student hostel" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge animate-fade-up"><i class="fa-solid fa-sparkles"></i> AI-Powered Hostel Discovery</div>
+      <h1 class="hero-title animate-fade-up delay-1">
+        Find Your Perfect<br /><span class="gradient-text">Student Hostel</span>
+      </h1>
+      <p class="hero-subtitle animate-fade-up delay-2">
+        GPS-based smart search · Real-time availability · Verified reviews · Online booking
+      </p>
+
+      <!-- SEARCH BOX -->
+      <div class="search-card animate-fade-up delay-3">
+        <div class="search-tabs">
+          <button class="stab active" data-tab="location"><i class="fa-solid fa-location-dot"></i> Near Me</button>
+          <button class="stab" data-tab="college"><i class="fa-solid fa-graduation-cap"></i> By College</button>
+          <button class="stab" data-tab="city"><i class="fa-solid fa-city"></i> By City</button>
+        </div>
+        <div class="search-fields">
+          <div class="search-field" id="tab-location">
+            <div class="field-group">
+              <i class="fa-solid fa-location-crosshairs"></i>
+              <input type="text" id="locationInput" placeholder="Detecting your location…" readonly />
+              <button class="detect-btn" id="detectBtn" onclick="detectLocation()">
+                <i class="fa-solid fa-crosshairs"></i> Detect
+              </button>
+            </div>
+            <div class="field-sep"></div>
+            <div class="field-group">
+              <i class="fa-solid fa-indian-rupee-sign"></i>
+              <select id="budget">
+                <option value="">Any Budget</option>
+                <option>Under ₹3,000/mo</option>
+                <option>₹3,000 – ₹6,000/mo</option>
+                <option>₹6,000 – ₹10,000/mo</option>
+                <option>Above ₹10,000/mo</option>
+              </select>
+            </div>
+            <div class="field-sep"></div>
+            <div class="field-group">
+              <i class="fa-solid fa-bed"></i>
+              <select id="roomType">
+                <option value="">Room Type</option>
+                <option>Single</option>
+                <option>Double Sharing</option>
+                <option>Triple Sharing</option>
+                <option>Dormitory</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="search-btn" onclick="performSearch()">
+          <i class="fa-solid fa-magnifying-glass"></i> Search Hostels
+        </button>
+      </div>
+
+      <!-- STATS -->
+      <div class="hero-stats animate-fade-up delay-4">
+        <div class="stat"><span class="stat-num">2,400+</span><span class="stat-label">Verified Hostels</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">18,000+</span><span class="stat-label">Happy Students</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">4.8★</span><span class="stat-label">Avg Rating</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">98%</span><span class="stat-label">Booking Success</span></div>
+      </div>
+    </div>
+    <div class="hero-scroll"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- AI RECOMMENDATION BANNER -->
+  <section class="ai-banner">
+    <div class="ai-banner-inner">
+      <div class="ai-icon-wrap"><i class="fa-solid fa-robot"></i></div>
+      <div class="ai-text">
+        <strong>AI Hostel Advisor</strong>
+        <span>Tell us your preferences and our AI will match you with the perfect hostel in seconds</span>
+      </div>
+      <button class="btn-glow" onclick="openAiAdvisor()"><i class="fa-solid fa-wand-magic-sparkles"></i> Get AI Recommendations</button>
+    </div>
+  </section>
+
+  <!-- FILTERS + LISTINGS -->
+  <section class="listings-section" id="listings">
+    <div class="container">
+      <div class="section-header">
+        <h2>Hostels Near You</h2>
+        <p>Showing <span id="resultCount">6</span> hostels sorted by <strong>Best Match</strong></p>
+      </div>
+
+      <div class="listings-layout">
+        <!-- SIDEBAR FILTERS -->
+        <aside class="filters-sidebar">
+          <div class="filter-header">
+            <h3><i class="fa-solid fa-sliders"></i> Filters</h3>
+            <button class="reset-btn" onclick="resetFilters()">Reset All</button>
+          </div>
+
+          <div class="filter-group">
+            <label>Distance</label>
+            <input type="range" min="0.5" max="10" step="0.5" value="5" id="distRange" oninput="updateDist(this.value)" />
+            <div class="range-val">Within <span id="distVal">5</span> km</div>
+          </div>
+
+          <div class="filter-group">
+            <label>Monthly Rent</label>
+            <input type="range" min="1000" max="15000" step="500" value="10000" id="rentRange" oninput="updateRent(this.value)" />
+            <div class="range-val">Up to ₹<span id="rentVal">10,000</span></div>
+          </div>
+
+          <div class="filter-group">
+            <label>Gender</label>
+            <div class="checkbox-group">
+              <label class="chk"><input type="checkbox" checked /> Boys</label>
+              <label class="chk"><input type="checkbox" checked /> Girls</label>
+              <label class="chk"><input type="checkbox" checked /> Co-ed</label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Amenities</label>
+            <div class="checkbox-group">
+              <label class="chk"><input type="checkbox" /> WiFi</label>
+              <label class="chk"><input type="checkbox" /> AC Room</label>
+              <label class="chk"><input type="checkbox" /> Mess Included</label>
+              <label class="chk"><input type="checkbox" /> CCTV Security</label>
+              <label class="chk"><input type="checkbox" /> Gym</label>
+              <label class="chk"><input type="checkbox" /> Laundry</label>
+              <label class="chk"><input type="checkbox" /> Parking</label>
+              <label class="chk"><input type="checkbox" /> Study Room</label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Minimum Rating</label>
+            <div class="star-filter">
+              <button class="star-btn active" data-rating="0">All</button>
+              <button class="star-btn" data-rating="3">3★+</button>
+              <button class="star-btn" data-rating="4">4★+</button>
+              <button class="star-btn" data-rating="4.5">4.5★+</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Sort By</label>
+            <select id="sortSelect" onchange="sortHostels(this.value)" class="filter-select">
+              <option value="recommended">Recommended</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="distance">Nearest First</option>
+            </select>
+          </div>
+
+          <button class="apply-filter-btn" onclick="applyFilters()"><i class="fa-solid fa-check"></i> Apply Filters</button>
+        </aside>
+
+        <!-- HOSTEL CARDS -->
+        <main class="hostel-grid" id="hostelGrid">
+          <!-- Cards injected by JS -->
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="section-header centered">
+        <div class="section-badge">Simple Process</div>
+        <h2>How HostelHub Works</h2>
+        <p>From search to move-in in 4 easy steps</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+          <h3>Search & Discover</h3>
+          <p>Use GPS or search by college/city. Browse verified hostels with photos, pricing, and real-time availability.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <h3>Compare & Decide</h3>
+          <p>Compare up to 3 hostels side-by-side. Read genuine reviews and get AI-powered recommendations.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <h3>Pre-Book & Visit</h3>
+          <p>Pay a small refundable advance to hold your room. Visit the hostel physically before confirming.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h3>Confirm & Move In</h3>
+          <p>Confirm your booking after visiting. Access your personalized hostel dashboard instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="features-text">
+          <div class="section-badge">Everything You Need</div>
+          <h2>A Complete Hostel Ecosystem</h2>
+          <p>HostelHub is not just a booking platform — it's a full hostel management system for students, admins, and mess staff.</p>
+          <div class="feature-list">
+            <div class="feat-item"><i class="fa-solid fa-check-circle"></i><div><strong>Real-time Room Availability</strong><p>See which rooms are available right now, updated by hostel staff instantly.</p></div></div>
+            <div class="feat-item"><i class="fa-solid fa-check-circle"></i><div><strong>Mess Menu & Meal Management</strong><p>View today's menu, mark attendance, and track meal counts digitally.</p></div></div>
+            <div class="feat-item"><i class="fa-solid fa-check-circle"></i><div><strong>Complaint Management</strong><p>Raise, track, and resolve complaints through the in-app system.</p></div></div>
+            <div class="feat-item"><i class="fa-solid fa-check-circle"></i><div><strong>Payment History & Receipts</strong><p>View all transactions, download receipts, and pay rent online.</p></div></div>
+            <div class="feat-item"><i class="fa-solid fa-check-circle"></i><div><strong>Emergency & Safety</strong><p>SOS button, warden contact, and emergency alerts built in.</p></div></div>
+          </div>
+          <button class="btn-primary" onclick="window.location.href='dashboard.html'">Explore Student Dashboard →</button>
+        </div>
+        <div class="features-img-wrap">
+          <img src="hostel_room.png" alt="Modern hostel room" class="features-img" />
+          <div class="img-badge badge-1"><i class="fa-solid fa-wifi"></i> Free WiFi</div>
+          <div class="img-badge badge-2"><i class="fa-solid fa-star"></i> 4.9 Rating</div>
+          <div class="img-badge badge-3"><i class="fa-solid fa-bed"></i> Available Now</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MESS PREVIEW -->
+  <section class="mess-preview">
+    <div class="container">
+      <div class="mess-layout">
+        <div class="mess-img-wrap">
+          <img src="hostel_mess.png" alt="Hostel mess hall" class="mess-img" />
+        </div>
+        <div class="mess-content">
+          <div class="section-badge">Mess Management</div>
+          <h2>Smart Mess & Meal Tracking</h2>
+          <p>Never miss a meal or wonder what's for lunch. HostelHub brings digital mess management to your fingertips.</p>
+          <div class="mess-menu-preview">
+            <div class="menu-day active">
+              <span class="day-label">Today – Sunday</span>
+              <div class="meals">
+                <div class="meal"><span class="meal-type breakfast">Breakfast</span><span>Idli, Sambar, Coconut Chutney, Tea</span></div>
+                <div class="meal"><span class="meal-type lunch">Lunch</span><span>Rice, Dal, Sabzi, Roti, Salad, Pickle</span></div>
+                <div class="meal"><span class="meal-type snack">Snacks</span><span>Biscuits, Tea / Coffee</span></div>
+                <div class="meal"><span class="meal-type dinner">Dinner</span><span>Chapati, Paneer Curry, Rice, Curd</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="mess-stats">
+            <div class="mess-stat"><i class="fa-solid fa-utensils"></i><div><strong>3 Meals/Day</strong><span>Nutritious & hygienic</span></div></div>
+            <div class="mess-stat"><i class="fa-solid fa-users"></i><div><strong>Real-time Count</strong><span>Mess staff dashboard</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header centered">
+        <div class="section-badge">Student Reviews</div>
+        <h2>What Students Are Saying</h2>
+      </div>
+      <div class="testimonials-grid" id="testimonialsGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Ready to Find Your Perfect Hostel?</h2>
+      <p>Join 18,000+ students who found their home away from home with HostelHub</p>
+      <div class="cta-actions">
+        <button class="btn-white" onclick="window.location.href='index.html#listings'">Browse Hostels</button>
+        <button class="btn-outline-white" onclick="window.location.href='admin.html'">List Your Hostel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon"><i class="fa-solid fa-building-columns"></i></span>
+        <span class="logo-text">Hostel<span class="logo-accent">Hub</span></span>
+        <p>Smart hostel search and management platform for students and administrators.</p>
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>For Students</h4>
+        <a href="index.html">Search Hostels</a>
+        <a href="compare.html">Compare Hostels</a>
+        <a href="dashboard.html">My Dashboard</a>
+        <a href="#">Mess Schedule</a>
+        <a href="#">Complaints</a>
+      </div>
+      <div class="footer-links">
+        <h4>For Owners</h4>
+        <a href="admin.html">Admin Dashboard</a>
+        <a href="#">List Your Hostel</a>
+        <a href="#">Manage Bookings</a>
+        <a href="#">Mess Staff Portal</a>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 HostelHub. Built with ❤️ for students.</span>
+    </div>
+  </footer>
+
+  <!-- AI ADVISOR MODAL -->
+  <div class="modal-overlay" id="aiModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAiAdvisor()"><i class="fa-solid fa-times"></i></button>
+      <div class="modal-header">
+        <div class="ai-modal-icon"><i class="fa-solid fa-robot"></i></div>
+        <h3>AI Hostel Advisor</h3>
+        <p>Answer a few questions and I'll find your perfect hostel match!</p>
+      </div>
+      <div class="ai-chat" id="aiChat">
+        <div class="ai-msg bot">Hi! 👋 I'm your AI Hostel Advisor. What's your college name?</div>
+      </div>
+      <div class="ai-input-wrap">
+        <input type="text" id="aiInput" placeholder="Type your answer…" onkeydown="if(event.key==='Enter') sendAiMsg()" />
+        <button onclick="sendAiMsg()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOSTEL DETAIL MODAL -->
+  <div class="modal-overlay" id="hostelModal">
+    <div class="modal-card hostel-detail-modal">
+      <button class="modal-close" onclick="closeHostelModal()"><i class="fa-solid fa-times"></i></button>
+      <div id="hostelModalContent"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
